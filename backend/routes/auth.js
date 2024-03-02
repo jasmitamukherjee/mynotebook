@@ -3,6 +3,10 @@ const express = require('express')
 const User = require('../models/User')
 const router = express.Router();
 const {body,validationResult} = require('express-validator')
+const bcrypt=require('bcryptjs')
+var jwt=require('jsonwebtoken')
+
+const JWT_SEC ='Jasmitaisagood$girl'
 
 
 //user using : POST "/api/auth"
@@ -27,16 +31,26 @@ router.post('/createuser',[
 
     return res.status(400).json({error : "Sorry a user with the same emial already exists"})
    }
+
+   const salt=await bcrypt.genSalt(10)
+
+   const secPass= await bcrypt.hash(req.body.password,salt)
    user = await User.create({
     name: req.body.name,
-    password : req.body.password,
+    password : secPass,
     email : req.body.email,
    })
    
-   
+   const data={
+    user:{
+        id:user.id
+    }
+   }
+const authToken = jwt.sign(data,JWT_SEC);
+// console.log(jwtData)
+res.json({authToken})
 
-
-res.json(user)
+// res.json(user)
 } catch (error) {
 
     console.error(error.message);
