@@ -6,13 +6,20 @@ const fetchuser= (req,res,next)=>{
 
     //get user from token
     const token= req.header('auth-token');
+    // res.send({token})
     if(!token){
         res.status(401).send({error:"Please authenticate using valid token"})
 
     }
     try {
-        const string = jwt.verify(token,JWT_SEC);
-    req.user = data.user;
+        const data = jwt.verify(token,JWT_SEC);
+        // console.log(string)
+        req.user = data.user;
+        // console.log(req.user)
+        // const data = jwt.verify(token,JWT_SEC);
+        // // console.log(string)
+        // req.user = data.id;
+        // // console.log(req.user)
 
     next();
         
