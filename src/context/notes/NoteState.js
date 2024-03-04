@@ -26,19 +26,24 @@ const NoteState = (props)=>{
                 
                 body: JSON.stringify({title,description,tag}), 
               });
+
+            //   const json=response.json();
+            //   console.log(json)
              
+              
             
 
             console.log("Adding a new note")
-            const note=  {
-                "_id": "65e4163f3be1grecbb4767927ff",
-                "user": "65e40815df414c7b74c6cb74",
-                "title": title,
-                "description": description,
-                "tag": tag,
-                "date": "2024-03-03T06:18:39.141Z",
-                "__v": 0
-              }
+            const note=  await response.json();
+            // {
+            //     "_id": "65e4163f3be1grecbb4767927ff",
+            //     "user": "65e40815df414c7b74c6cb74",
+            //     "title": title,
+            //     "description": description,
+            //     "tag": tag,
+            //     "date": "2024-03-03T06:18:39.141Z",
+            //     "__v": 0
+            //   }
             setNotes(notes.concat(note))
 
 
@@ -94,7 +99,7 @@ const NoteState = (props)=>{
             //api 
             
             const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                   "Content-Type": "application/json",
                   "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVlNDA4MTVkZjQxNGM3Yjc0YzZjYjc0In0sImlhdCI6MTcwOTQ0MzExN30.cjrsIg6gg4hNr0xvYSLasfOyOXjRD3D84AurTau-oJw"
@@ -104,22 +109,32 @@ const NoteState = (props)=>{
                 body: JSON.stringify({title,description,tag}), 
               });
               
-            
+              const json=await response.json();
+              console.log(json)
+             
 
             //addd in client
 
 
-            for (let index = 0; index < notes.length; index++) {
-                const element = notes[index];
-                if(element._id ===id ){
-                element.title= title;
-                element.description=description;
-                element.tag= tag;
+            let newNotes= JSON.parse(JSON.stringify(notes))
+            for (let index = 0; index < newNotes.length; index++) {
+                const element = newNotes[index];
+                if(element._id === id ){
+                    // newNotes[title]= title;
+                    // newNotes[description]=description;
+                    // newNotes[tag]= tag;
+                    element.title = title;
+                    element.description = description;
+                    element.tag = tag;
+                    break;
 
             }
+           
 
                 
             }
+            setNotes(newNotes)
+           
 
         }
 
