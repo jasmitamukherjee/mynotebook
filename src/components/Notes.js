@@ -2,18 +2,34 @@ import React, { useContext, useEffect, useRef ,useState} from 'react'
 import NoteContext from '../context/notes/NoteContext';
 import NoteItem from './NoteItem';
 import AddNote from './AddNote';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Notes(props) {
+    const navigate=useNavigate()
     const context = useContext(NoteContext);
     const { notes, getNotes,editNote } = context;
     useEffect(() => {
+        const token=localStorage.getItem('token')
+        if(token)
+        {
+            getNotes();
+           
+            
+        }
         
-        getNotes()
+      
+     else{
+        
+       
+        navigate("/login")
+
+     }
          // eslint-disable-next-line
         
 
 
-    }, [])
+    }, [navigate,getNotes])
     const ref = useRef(null)
     const refClose = useRef(null)
     const updateNote = (currentNote) => {
@@ -81,7 +97,7 @@ props.showAlert("Updated successfully","success");
                         </div>
                         <div className="modal-footer">
                             <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button disabled={note.etitle.length<5 || note.edescription.length<5}  onClick={handleClick} type="button" className="btn btn-primary" >Update Note</button>
+                            <button disabled={note.etitle.length<5 || note.edescription.length<5}  onClick={handleClick}  type="button" className="btn btn-dark" >Update Note</button>
                         </div>
                     </div>
                 </div>

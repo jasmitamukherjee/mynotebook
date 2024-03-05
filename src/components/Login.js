@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login(props) {
 
     const [credentials, setCredentials] = useState({email:"",password:""})
  
-   
+   const navigate= useNavigate()
 
 
 
@@ -26,6 +27,7 @@ export default function Login(props) {
           if (json.success){
             //save the auth token and redirect
             localStorage.setItem('token',json.authToken)
+            navigate("/")
             props.showAlert("Logged in successfully","success")
 
             
@@ -43,8 +45,11 @@ export default function Login(props) {
 
     }
   return (
-    <div>
+    <div className='mt-3'>
         <form onSubmit={handleSubmit}>
+          <h2>
+            Login to continue to myNotebook
+          </h2>
   <div className="form-group">
     <label htmlFor="email">Email address</label>
     <input type="email" className="form-control" id="email" name="email" value={credentials.email} onChange={onChange} aria-describedby="emailHelp" placeholder="Enter email"/>
@@ -54,11 +59,8 @@ export default function Login(props) {
     <label htmlFor="password">Password</label>
     <input type="password" className="form-control" value={credentials.password} onChange={onChange} id="password" name="password" placeholder="Password"/>
   </div>
-  <div className="form-check">
-    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-    
-  </div>
-  <button type="submit" className="btn btn-primary" >Submit</button>
+  
+  <button type="submit" className="btn btn-dark btn-outline-light my-2" >Submit</button>
 </form>
     </div>
   )

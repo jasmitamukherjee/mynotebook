@@ -1,12 +1,17 @@
 import React,{useState} from 'react'
+import Alert from './Alert';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Signup(props) {
+  
+const navigate=useNavigate()
 
    
     const [credentials, setCredentials] = useState({name:"",email:"",password:"",cpassword:""})
 
     const handleSubmit= async(e)=>{
+      
         e.preventDefault();
        const {name,email,password} =credentials;
         const response = await fetch("http://localhost:5000/api/auth/createuser", {
@@ -24,8 +29,9 @@ export default function Signup(props) {
           
           if(json.success){
             //save the auth token and redirect
-            localStorage.setItem('token',json.authToken)
+            // localStorage.setItem('token',json.authToken)
             props.showAlert("Account created successfully","success")
+            navigate("/login")
 
         }
         else{
@@ -44,8 +50,12 @@ export default function Signup(props) {
     }
 
   return (
-    <div className='container'>
+    <div className='container mt-2'>
+     
         <form onSubmit={handleSubmit}>
+        <h2>
+           Sign Up to continue to myNotebook
+          </h2>
         <div className="form-group">
     <label htmlFor="name">Name</label>
     <input type="name" className="form-control" id="name" name="name" onChange={onChange} aria-describedby="emailHelp" placeholder="name"/>
@@ -68,7 +78,7 @@ export default function Signup(props) {
     <input type="password" className="form-control" id="cpassword" name="cpassword" onChange={onChange} minLength={5} required placeholder="Password"/>
   </div>
  
-  <button type="submit" className="btn btn-primary">Submit</button>
+  <button type="submit" className="btn btn-dark btn-outline-light my-2">Submit</button>
 </form>
     </div>
   )
