@@ -12,7 +12,7 @@
 // 'mongodb://localhost:27017/?directConnection=true'
 const mongoose = require('mongoose');
 
-const mongoURI = "mongodb+srv://<>@cluster0.lfmacpl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const mongoURI = "mongodb+srv://jasmitamukherjee:jasmita_mynotebook@cluster0.lfmacpl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 const connectToMongo = async () => {
     try {
