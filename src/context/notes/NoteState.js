@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NoteContext from "./NoteContext";
 
 const NoteState = (props)=>{
-    const host= "https://mynotebook-back-fty4.onrender.com"
+    const host= "http://localhost:5000"
     const notesInitial=[
        
         
@@ -14,7 +14,6 @@ const NoteState = (props)=>{
 
         const addNote= async(title,description,tag)=>{
             //todo api call
-
 
             const response = await fetch(`${host}/api/notes/addnote`, {
                 method: 'POST',
